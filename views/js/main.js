@@ -450,13 +450,14 @@ var resizePizzas = function(size) {
   }
 
   // Iterates through pizza elements on the page and changes their widths
-  // Modified function to select randomPizzaContainer elements by class name and add them to a pizzaElements array. I think it reads easier, but would this have effects on performance?.
+  // Modified function to select randomPizzaContainer elements by class name and save to a variable, pizzaElements.
+  // Modfied for loop to save the length property of the pizzaElements object as a local variable.
   // Moved the dx and newwidth variables outside of the for loop, since it didn't seem necessary to recompute them with each pass through the loop.
   function changePizzaSizes(size) {
     var pizzaElements = document.getElementsByClassName("randomPizzaContainer");
     var dx = determineDx(pizzaElements[0], size);
     var newwidth = (pizzaElements[0].offsetWidth + dx) + 'px';
-    for (var i = 0; i < pizzaElements.length; i++) {
+    for (var i = 0, len = pizzaElements.length; i < len; i++) {
       pizzaElements[i].style.width = newwidth;
     }
   }
@@ -473,8 +474,9 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
+// Moved pizzaDivs outside the for loop to so not to repeat a DOM call on each pass
+var pizzasDiv = document.getElementById("randomPizzas");
 for (var i = 2; i < 100; i++) {
-  var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
 
@@ -535,8 +537,11 @@ window.addEventListener('scroll', updatePositions);
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
-  //Changed the number of pizzas generated to 30 .
-  var pizzaCount = 30;
+  //Changed the number of pizzas generated to be based on the window height.
+  var rows = Math.round(window.screen.height / s);
+  var pizzaCount = rows * cols;
+  //Changed querySelector call to getElementById, saved this DOM call to local variable, movingPizzas, outside of the for loop.
+  var movingPizzas = document.getElementById("movingPizzas1");
   for (var i = 0; i < pizzaCount; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
@@ -545,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    movingPizzas.appendChild(elem);
   }
   updatePositions();
 });

@@ -21,7 +21,9 @@ python -m SimpleHTTPServer 8080
 3. Modified the updatePositions function to select the mover elements by class name.
 4. Since there are only 5 unique phases of the moving pizzas, I moved the phase calculation into its own for loop that appends each phase to an array called phaseList, rather than declaring and setting the phase variable each time.
 5. The pizza item styles are changed by accessing the relevant element of the phaseList array as it loops through each element in the items array.
-6. Changed the number of pizzas generated on page load to 30.
+6. Moved the declaration of the pizzaDivs variable outside of the for loop, since it is only necessary to make one DOM call there.
+7. Changed the number of pizzas generated on page load to be based on the browser window resolution.
+8. Changed the querySelector call for selecting movingPizzas1 element to getElementById, saved it to a local variable called movingPizzas, moved it outside of the for loop, and referenced the movingPizzas variable inside the loop.
 
 ## Optimizations to views/css/style.css
 
