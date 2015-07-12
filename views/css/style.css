@@ -28,11 +28,13 @@ form {
 #pizzaSize {
   font-weight: 800;
 }
-
+/*Changed backface-visibility to hidden to move each pizza to its own composite layer.
+This reduced painting times, but seemed to introduce more scripting and rendering time. */
 .mover {
   position: fixed;
   width: 256px;
   z-index: -1;
+  backface-visibility: hidden;
 }
 
 .randomPizzaContainer {
